@@ -17,16 +17,27 @@ class ViewController: UIViewController {
     var userController : UserDetailController?
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         createTable()
         createView()
         loadData()
+//        testApi()
         // Do any additional setup after loading the view.
     }
     
     func loadData(){
-        guard let table = filterTable, let collection = recentCollection else{print("SDS");return}
-        apifetch.requestUser(count: 10, completionHandler: {
+        guard let table = filterTable, let collection = recentCollection else{return}
+        let userListUrl = api.url
+        apifetch.request(url: userListUrl, completion: {
+            (jsonData) in
+            let userList : usersData = Bundle.main.decode(jsonData)
+            table.dataArray = userList.data
+            collection.cellData = userList.data
+            DispatchQueue.main.async {
+                table.reloadData()
+                collection.reloadData()
+            }
+        })
+        /*apifetch.requestUser(count: 10, completionHandler: {
             (data) in
             table.dataArray = data.data
             collection.cellData = data.data
@@ -35,14 +46,23 @@ class ViewController: UIViewController {
                 table.reloadData()
                 collection.reloadData()
             }
+        })*/
+    }
+    
+    func testApi(){
+        apifetch.request(url: api.url, completion: {
+            (data) in
+            let user : usersData = Bundle.main.decode(data)
+            print(user)
         })
     }
     
     func createTable(){
         filterTable = Bundle.main.loadNibNamed("Filters", owner: nil)![0] as? Filters
         filterTable?.frame = filterView.bounds
+        
         guard  let filterTable = filterTable else { return }
-        filterView.addSubview(filterTable)
+                filterView.addSubview(filterTable)
         
         filterTable.showUserData = {
             (userData) in

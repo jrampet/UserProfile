@@ -17,9 +17,12 @@ class UserDetailController: UIViewController {
     let userProfileId = ["Name","Gender","D.O.B","Phone","Email"]
     override func viewDidLoad() {
         super.viewDidLoad()
-        createData()
+        
         registerTable()
         // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        createData()
     }
     func createData(){
        
@@ -31,10 +34,15 @@ class UserDetailController: UIViewController {
             let userProfileData = [name,gender,dob,data.phone,email]
             
             self.userSet = Dictionary(uniqueKeysWithValues: zip(userProfileId, userProfileData))
-            print(userSet)
+            
             self.userDp.setImage(urlString: data.picture)
+            DispatchQueue.main.async {
+                self.userDp.rounded()
+            }
+           
+//            print(userDp.frame.width,userDp.frame.height)
         }
-        self.userDp.rounded()
+        
     }
     func registerTable(){
         table.register(UINib(nibName: self.identifier, bundle: nil), forCellReuseIdentifier: self.identifier)

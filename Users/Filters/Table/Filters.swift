@@ -17,7 +17,6 @@ class Filters: UITableView {
         delegate = self
         dataSource = self
         backgroundColor = .clear
-    
     }
 }
 extension Filters : UITableViewDelegate,UITableViewDataSource{
@@ -47,14 +46,15 @@ extension Filters : UITableViewDelegate,UITableViewDataSource{
     }
     
     func getHeader(with text:String)->UIView{
-        let headerView = UIView.init(frame: CGRect.init(x: 15, y: 25, width: self.frame.width, height: 70))
+        let headerView = UIView.init(frame: CGRect.init(x: 15, y: 25, width: self.frame.width-60, height: 70))
                 let label = UILabel()
-                label.frame = CGRect.init(x: 25, y: 5, width: headerView.frame.width-10, height: headerView.frame.height-10)
+                label.frame = CGRect.init(x: 25, y: 5, width: headerView.frame.width-50, height: headerView.frame.height-10)
                 label.text = text
         label.font = UIFont.systemFont(ofSize: 25, weight: .heavy)
                 label.textColor = Colors.headertextColor
-        headerView.backgroundColor = .white
-   
+        headerView.clipsToBounds = true
+        label.clipsToBounds = true
+  
         headerView.layer.cornerRadius = 30
                 headerView.addSubview(label)
                 return headerView

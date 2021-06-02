@@ -55,7 +55,14 @@ class FetchApi{
     
     
 }
-
+extension Bundle{
+    func decode<Type: Codable>(_ jsonData: Data) -> Type {
+        guard let anyObject = try? JSONDecoder().decode(Type.self,from:jsonData) else{
+            fatalError("Failed to Decode")
+        }
+        return anyObject
+    }
+}
 
 
 /*

@@ -43,8 +43,11 @@ class ImageController{
 
 extension UIImageView{
     func rounded(){
-        self.layer.cornerRadius = self.layer.frame.width/2;
-        self.clipsToBounds = true
         
+        self.contentMode = .scaleAspectFill
+        self.layer.cornerRadius = self.layer.frame.height / 2
+        self.layer.masksToBounds = false
+        self.clipsToBounds = true
+       
     }
 }

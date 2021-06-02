@@ -63,7 +63,7 @@
                                         <rect key="frame" x="40" y="30" width="294" height="227.5"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LCb-Bj-nGV">
-                                                <rect key="frame" x="59" y="25.5" width="176" height="176.5"/>
+                                                <rect key="frame" x="73.5" y="40" width="147" height="147"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="LCb-Bj-nGV" secondAttribute="height" multiplier="1:1" id="vRe-Io-IFf"/>
                                                 </constraints>
@@ -71,7 +71,7 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstItem="LCb-Bj-nGV" firstAttribute="width" secondItem="n8A-8N-WFH" secondAttribute="width" multiplier="0.6" id="g3K-iO-OZF"/>
+                                            <constraint firstItem="LCb-Bj-nGV" firstAttribute="width" secondItem="n8A-8N-WFH" secondAttribute="width" multiplier="0.5" id="g3K-iO-OZF"/>
                                             <constraint firstItem="LCb-Bj-nGV" firstAttribute="centerX" secondItem="n8A-8N-WFH" secondAttribute="centerX" id="hDj-df-Hdf"/>
                                             <constraint firstItem="LCb-Bj-nGV" firstAttribute="centerY" secondItem="n8A-8N-WFH" secondAttribute="centerY" id="yGu-kw-Fo3"/>
                                         </constraints>
