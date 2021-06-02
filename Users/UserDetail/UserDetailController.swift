@@ -41,6 +41,7 @@ class UserDetailController: UIViewController {
         table.delegate = self
         table.dataSource = self
         table.separatorStyle = .none
+        table.backgroundColor = .clear
     }
 
     /*

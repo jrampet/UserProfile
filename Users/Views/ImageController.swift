@@ -10,7 +10,6 @@ class ImageController{
     var task: URLSessionDownloadTask!
     var session: URLSession!
     var cache: NSCache<NSString, UIImage>!
-    
     init() {
         session = URLSession.shared
         self.cache = NSCache()

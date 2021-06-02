@@ -26,9 +26,8 @@ class ViewController: UIViewController {
     
     func loadData(){
         guard let table = filterTable, let collection = recentCollection else{print("SDS");return}
-        apifetch.request(url: api.url, completion: {
-            data in
-            print(data.data.count)
+        apifetch.requestUser(count: 10, completionHandler: {
+            (data) in
             table.dataArray = data.data
             collection.cellData = data.data
             print(table.dataArray.count)
@@ -71,3 +70,16 @@ class ViewController: UIViewController {
     
 }
 
+/*
+ apifetch.request(url: api.url, completion: {
+     data in
+     print(data.data.count)
+     table.dataArray = data.data
+     collection.cellData = data.data
+     print(table.dataArray.count)
+     DispatchQueue.main.async {
+         table.reloadData()
+         collection.reloadData()
+     }
+ })
+ */

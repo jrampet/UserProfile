@@ -79,12 +79,12 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ajB-Vx-yYw" customClass="CardView" customModule="Users" customModuleProvider="target">
                                         <rect key="frame" x="20" y="277.5" width="334" height="460.5"/>
                                         <subviews>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WBo-Nt-36J">
+                                            <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WBo-Nt-36J">
                                                 <rect key="frame" x="15" y="15" width="304" height="430.5"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </tableView>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="backgroundColor" red="0.98823529409999999" green="0.93333333330000001" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
                                             <constraint firstItem="WBo-Nt-36J" firstAttribute="leading" secondItem="ajB-Vx-yYw" secondAttribute="leading" constant="15" id="30J-qb-ghg"/>
                                             <constraint firstAttribute="bottom" secondItem="WBo-Nt-36J" secondAttribute="bottom" constant="15" id="8Jk-3z-RxU"/>

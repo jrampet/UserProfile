@@ -8,9 +8,9 @@
 import Foundation
 class FetchApi{
     private let appId = "60b5ca5885fa4c491962e5e8"
-    func request(url:String,count:String="10",completion: @escaping (_ data: usersData)->()){
+    func request(url:String,completion: @escaping (_ data: Data)->()){
         
-        guard let url = URL(string: url+count) else{return}
+        guard let url = URL(string: url) else{return}
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = [
           "Content-Type": "application/json",
@@ -19,12 +19,7 @@ class FetchApi{
         URLSession.shared.dataTask(with: request,completionHandler: {
             (data, response, error) in
             if let data = data, error == nil{
-                do{
-                    let json = try JSONDecoder().decode(usersData.self,from:data)
-                    completion(json)
-                }catch{
-                    print("ERRORs")
-                }
+               completion(data)
             }else{
                 print("Error in api")
             }
@@ -32,27 +27,29 @@ class FetchApi{
        
     }
     
-    func requestuserProfile(for id:String,completion: @escaping (_ data: UserProfile)->()){
-        
-        guard let url = URL(string: api.userProfile+id) else{return}
-        var request = URLRequest(url: url)
-        request.allHTTPHeaderFields = [
-          "Content-Type": "application/json",
-            "app-id": appId
-        ]
-        URLSession.shared.dataTask(with: request,completionHandler: {
-            (data, response, error) in
-            if let data = data, error == nil{
-                do{
-                    let json = try JSONDecoder().decode(UserProfile.self,from:data)
-                    completion(json)
-                }catch{
-                    print("ERRORs")
-                }
-            }else{
-                print("Error in api")
+    func requestUser(count:Int,completionHandler: @escaping (_ data: usersData)->()){
+        request(url: api.url+"\(count)", completion: {
+            (data) in
+            do{
+                let json = try JSONDecoder().decode(usersData.self,from:data)
+                completionHandler(json)
+            }catch{
+                print("ERRORs")
             }
-        }).resume()
+        })
+    }
+    
+    func requestuserProfile(for id:String,completionHandler: @escaping (_ data: UserProfile)->()){
+        
+        request(url: api.userProfile+"\(id)", completion: {
+            (data) in
+            do{
+                let json = try JSONDecoder().decode(UserProfile.self,from:data)
+                completionHandler(json)
+            }catch{
+                print("ERRORs")
+            }
+        })
        
     }
     
@@ -86,4 +83,14 @@ class FetchApi{
      }.resume()
  }
 
+ */
+
+
+/*
+ do{
+     let json = try JSONDecoder().decode(usersData.self,from:data)
+     completion(json)
+ }catch{
+     print("ERRORs")
+ }
  */

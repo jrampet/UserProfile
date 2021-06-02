@@ -33,7 +33,7 @@ extension Filters : UITableViewDelegate,UITableViewDataSource{
 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        apiFetch.requestuserProfile(for: dataArray[indexPath.row].id, completion: {
+        apiFetch.requestuserProfile(for: dataArray[indexPath.row].id, completionHandler:  {
             (data) in
             self.showUserData?(data)
         })
