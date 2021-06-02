@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct userData:Codable{
+struct UserData:Codable{
     var id,lastName,firstName,email,title,picture : String
 }
-struct usersData:Codable{
-    var data = [userData]()
+struct UsersData:Codable{
+    var data = [UserData]()
 }
 
 /*{
@@ -25,9 +25,9 @@ struct usersData:Codable{
 */
 struct UserProfile:Codable{
     let id,phone,lastName,firstName,email,gender,title,picture,dateOfBirth : String
-    let location : userlocation
+    let location : UserLocation
 }
-struct userlocation:Codable{
+struct UserLocation:Codable{
     let state,street,city,country:String
 }
 

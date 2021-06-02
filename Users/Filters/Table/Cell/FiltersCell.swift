@@ -18,11 +18,12 @@ class FiltersCell: UITableViewCell {
         // Initialization code
     }
     
-    func configure(data:userData){
+    func configure(data:UserData){
         userName.text = data.firstName + " " + data.lastName
         userMail.text = data.email
         userMail.textColor = Colors.textColor
-        imageLoader.obtainImageWithPath(imagePath: data.picture) { (image) in
+        imageLoader.obtainImageWithPath(imagePath: data.picture) {[weak self] (image) in
+            guard let self = self else{return}
             self.userImage.image = image
         }
         userImage.rounded()

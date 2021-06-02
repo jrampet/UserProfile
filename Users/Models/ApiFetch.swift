@@ -8,13 +8,14 @@
 import Foundation
 class FetchApi{
     private let appId = "60b5ca5885fa4c491962e5e8"
-    func request(url:String,completion: @escaping (_ data: Data)->()){
-        
+    static let api  = FetchApi()
+    static func request(url:String,completion: @escaping (_ data: Data)->()){
+
         guard let url = URL(string: url) else{return}
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = [
           "Content-Type": "application/json",
-            "app-id": appId
+            "app-id": api.appId
         ]
         URLSession.shared.dataTask(with: request,completionHandler: {
             (data, response, error) in
@@ -27,7 +28,7 @@ class FetchApi{
        
     }
     
-    func requestUser(count:Int,completionHandler: @escaping (_ data: usersData)->()){
+    /*func requestUser(count:Int,completionHandler: @escaping (_ data: usersData)->()){
         request(url: api.url+"\(count)", completion: {
             (data) in
             do{
@@ -51,13 +52,13 @@ class FetchApi{
             }
         })
        
-    }
+    }*/
     
     
 }
-extension Bundle{
-    func decode<Type: Codable>(_ jsonData: Data) -> Type {
-        guard let anyObject = try? JSONDecoder().decode(Type.self,from:jsonData) else{
+extension Data{
+    func decode<Type: Codable>() -> Type {
+        guard let anyObject = try? JSONDecoder().decode(Type.self,from:self) else{
             fatalError("Failed to Decode")
         }
         return anyObject

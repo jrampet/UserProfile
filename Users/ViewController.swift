@@ -8,34 +8,38 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let apifetch = FetchApi()
+    
     var filterTable : Filters?
     var recentCollection : Recents?
     @IBOutlet var filterView : UIView!
     @IBOutlet var recentView : UIView!
-    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+    @IBOutlet var searchBar: UISearchBar!
+    
+    let storyBoard: UIStoryboard = UIStoryboard(name: Constants.StoryBoard.main, bundle: nil)
     var userController : UserDetailController?
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchBar.delegate = self
         createTable()
         createView()
         loadData()
+        
 //        testApi()
         // Do any additional setup after loading the view.
     }
     
     func loadData(){
+    
         guard let table = filterTable, let collection = recentCollection else{return}
+       
         let userListUrl = api.url
-        apifetch.request(url: userListUrl, completion: {
+        FetchApi.request(url: userListUrl, completion: {
             (jsonData) in
-            let userList : usersData = Bundle.main.decode(jsonData)
-            table.dataArray = userList.data
+            let userList : UsersData = jsonData.decode()
+            table.dataOfUsers = userList.data
             collection.cellData = userList.data
-            DispatchQueue.main.async {
-                table.reloadData()
-                collection.reloadData()
-            }
+            print("\(table.dataOfUsers.count)  ju")
         })
         /*apifetch.requestUser(count: 10, completionHandler: {
             (data) in
@@ -50,26 +54,23 @@ class ViewController: UIViewController {
     }
     
     func testApi(){
-        apifetch.request(url: api.url, completion: {
+        FetchApi.request(url: api.url, completion: {
             (data) in
-            let user : usersData = Bundle.main.decode(data)
+            let user : UsersData = data.decode()
             print(user)
         })
     }
     
     func createTable(){
-        filterTable = Bundle.main.loadNibNamed("Filters", owner: nil)![0] as? Filters
-        filterTable?.frame = filterView.bounds
-        
+        filterTable = Bundle.main.loadNibNamed(Constants.xib.filter, owner: nil)![0] as? Filters
         guard  let filterTable = filterTable else { return }
-                filterView.addSubview(filterTable)
-        
-        filterTable.showUserData = {
+        filterTable.frame = filterView.bounds
+        filterView.addSubview(filterTable)
+        filterTable.showUserData = {[weak self]
             (userData) in
-            
-            
+            guard let self = self else{return}
             DispatchQueue.main.async {
-                self.userController = self.storyBoard.instantiateViewController(identifier: "UserDetailController")
+                self.userController = self.storyBoard.instantiateViewController(identifier: Constants.StoryBoard.userViewController)
                 guard let userController = self.userController else{return}
                 userController.profileData = userData
                 userController.title = userData.firstName
@@ -81,13 +82,36 @@ class ViewController: UIViewController {
         }
     }
     func createView(){
-        recentCollection = Bundle.main.loadNibNamed("Recents", owner: nil)![0] as? Recents
+        recentCollection = Bundle.main.loadNibNamed(Constants.xib.recent, owner: nil)![0] as? Recents
         guard let recentCollection  = recentCollection else{return }
-        recentCollection.frame = recentView.bounds
+        recentCollection.frame = CGRect(x: 0, y: 0, width: recentView.frame.width-10, height: recentView.frame.height)
         recentView.addSubview(recentCollection)
+        print(recentView.frame.width,recentView.frame.height)
+        print(recentCollection.frame.height,recentCollection.frame.width)
     }
     
     
+}
+extension ViewController: UISearchBarDelegate{
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        guard let filterTable = self.filterTable else{return}
+        print(filterTable.filteredData.count)
+        filterTable.filteredData = searchText.isEmpty ? filterTable.dataOfUsers : filterTable.dataOfUsers.filter({
+            return $0.firstName.contains(searchText)
+        })
+        
+        if searchText == "" {
+            self.searchBar.endEditing(true)
+            }
+        
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.searchBar.endEditing(true)
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.searchBar.endEditing(true)
+    }
 }
 
 /*

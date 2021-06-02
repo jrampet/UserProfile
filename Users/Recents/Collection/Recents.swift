@@ -9,12 +9,17 @@ import UIKit
 
 class Recents: UICollectionView {
     let identifier = "CollectionCell"
-    var cellData = [userData]()
+    var cellData = [UserData](){
+        didSet{
+            DispatchQueue.main.async {
+                self.reloadData()
+            }
+        }
+    }
     override func awakeFromNib() {
         self.register(UINib(nibName: self.identifier, bundle: nil), forCellWithReuseIdentifier: self.identifier)
         delegate = self
         dataSource = self
-        isOpaque = false
         backgroundColor = .clear
     }
 

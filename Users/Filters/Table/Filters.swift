@@ -8,9 +8,21 @@
 import UIKit
 
 class Filters: UITableView {
-    let apiFetch = FetchApi()
+   
    let identifier = "FiltersCell"
-    var dataArray = [userData]()
+    
+    var filteredData = [UserData](){
+        didSet{
+            DispatchQueue.main.async {
+                self.reloadData()
+            }
+        }
+    }
+    var dataOfUsers = [UserData](){
+        didSet{
+            filteredData = dataOfUsers
+        }
+    }
     var showUserData:((UserProfile)->())?
     override func awakeFromNib() {
     register(UINib(nibName: identifier, bundle: nil), forCellReuseIdentifier: identifier)
@@ -19,25 +31,28 @@ class Filters: UITableView {
         backgroundColor = .clear
     }
 }
-extension Filters : UITableViewDelegate,UITableViewDataSource{
+extension Filters : UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dataArray.count
+        filteredData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell =  tableView.dequeueReusableCell(withIdentifier: identifier,for: indexPath) as! FiltersCell
-        cell.configure(data: dataArray[indexPath.row])
+        cell.configure(data: filteredData[indexPath.row])
         return cell
     }
-
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        apiFetch.requestuserProfile(for: dataArray[indexPath.row].id, completionHandler:  {
+        let profileUrl = api.userProfile + filteredData[indexPath.row].id
+        FetchApi.request(url: profileUrl, completion:  {[weak self]
             (data) in
-            self.showUserData?(data)
+            guard let self = self else{return}
+            let userData : UserProfile = data.decode()
+            self.showUserData?(userData)
         })
-        
     }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
             return getHeader(with: "Filters")
     }
@@ -52,8 +67,6 @@ extension Filters : UITableViewDelegate,UITableViewDataSource{
                 label.text = text
         label.font = UIFont.systemFont(ofSize: 25, weight: .heavy)
                 label.textColor = Colors.headertextColor
-        headerView.clipsToBounds = true
-        label.clipsToBounds = true
   
         headerView.layer.cornerRadius = 30
                 headerView.addSubview(label)

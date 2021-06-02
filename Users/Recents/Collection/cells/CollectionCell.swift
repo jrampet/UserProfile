@@ -17,10 +17,11 @@ class CollectionCell: UICollectionViewCell {
         // Initialization code
     }
     
-    func configure(data : userData){
+    func configure(data : UserData){
         userLabel.text = data.firstName
         userLabel.textColor = Colors.textColor
-        imageLoader.obtainImageWithPath(imagePath: data.picture) { (image) in
+        imageLoader.obtainImageWithPath(imagePath: data.picture) {[weak self] (image) in
+            guard let self = self else{return}
             self.userImage.image = image
         }
         userImage.rounded()

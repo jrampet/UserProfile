@@ -23,6 +23,16 @@ extension UIViewController{
         newController.pushViewController(controller, animated: true)
     }
 }
+struct Constants{
+    struct StoryBoard{
+        static let main = "Main"
+        static let userViewController = "UserDetailController"
+    }
+    struct xib{
+        static let filter = "Filters"
+        static let recent = "Recents"
+    }
+}
 extension UIImageView{
     func setImage(urlString:String){
         guard let iconurl = URL(string: urlString) else {return}
