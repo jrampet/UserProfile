@@ -16,52 +16,54 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MA2-sp-bgW">
-                                <rect key="frame" x="0.0" y="153" width="414" height="143.5"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UdR-ny-9ZX" customClass="CardView" customModule="Users" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="306.5" width="414" height="589.5"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hUa-W5-YVB">
-                                <rect key="frame" x="0.0" y="98" width="414" height="50"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="UaY-Up-KbM">
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <subviews>
-                                    <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="Rq7-CB-62d">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hUa-W5-YVB">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                        <subviews>
+                                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="Rq7-CB-62d">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <scopeButtonTitles>
+                                                    <string>Title</string>
+                                                    <string>Title</string>
+                                                </scopeButtonTitles>
+                                            </searchBar>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="Rq7-CB-62d" secondAttribute="bottom" id="D1m-pP-2Lv"/>
+                                            <constraint firstItem="Rq7-CB-62d" firstAttribute="top" secondItem="hUa-W5-YVB" secondAttribute="top" id="W5n-rJ-Y3g"/>
+                                            <constraint firstAttribute="trailing" secondItem="Rq7-CB-62d" secondAttribute="trailing" id="acs-GX-PjY"/>
+                                            <constraint firstAttribute="height" constant="50" id="dHq-YT-7ik"/>
+                                            <constraint firstItem="Rq7-CB-62d" firstAttribute="leading" secondItem="hUa-W5-YVB" secondAttribute="leading" id="hws-r1-Lw6"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MA2-sp-bgW">
+                                        <rect key="frame" x="0.0" y="57" width="414" height="138.5"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UdR-ny-9ZX" customClass="CardView" customModule="Users" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="202.5" width="414" height="605.5"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <scopeButtonTitles>
-                                            <string>Title</string>
-                                            <string>Title</string>
-                                        </scopeButtonTitles>
-                                    </searchBar>
+                                    </view>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="Rq7-CB-62d" secondAttribute="bottom" id="D1m-pP-2Lv"/>
-                                    <constraint firstItem="Rq7-CB-62d" firstAttribute="top" secondItem="hUa-W5-YVB" secondAttribute="top" id="W5n-rJ-Y3g"/>
-                                    <constraint firstAttribute="trailing" secondItem="Rq7-CB-62d" secondAttribute="trailing" id="acs-GX-PjY"/>
-                                    <constraint firstAttribute="height" constant="50" id="dHq-YT-7ik"/>
-                                    <constraint firstItem="Rq7-CB-62d" firstAttribute="leading" secondItem="hUa-W5-YVB" secondAttribute="leading" id="hws-r1-Lw6"/>
+                                    <constraint firstAttribute="bottom" secondItem="UdR-ny-9ZX" secondAttribute="bottom" id="Lg7-S5-4NU"/>
+                                    <constraint firstItem="MA2-sp-bgW" firstAttribute="height" secondItem="UaY-Up-KbM" secondAttribute="height" multiplier="0.16" constant="9.4199999999999999" id="X85-W7-AnD"/>
                                 </constraints>
-                            </view>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.95698386430000004" green="0.96054297690000001" blue="0.97255140539999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="hUa-W5-YVB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="3Vh-de-X49"/>
-                            <constraint firstAttribute="trailing" secondItem="hUa-W5-YVB" secondAttribute="trailing" id="Dfm-4B-drt"/>
-                            <constraint firstAttribute="bottom" secondItem="UdR-ny-9ZX" secondAttribute="bottom" id="EmY-5Z-Grd"/>
-                            <constraint firstItem="UdR-ny-9ZX" firstAttribute="top" secondItem="MA2-sp-bgW" secondAttribute="bottom" constant="10" id="Q4F-Vh-dOd"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="UdR-ny-9ZX" secondAttribute="trailing" id="XwG-Ia-x90"/>
-                            <constraint firstItem="MA2-sp-bgW" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.16" id="dmh-8c-vF6"/>
-                            <constraint firstItem="UdR-ny-9ZX" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="fwy-r2-kXh"/>
-                            <constraint firstItem="hUa-W5-YVB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="m3K-mz-SFA"/>
-                            <constraint firstItem="MA2-sp-bgW" firstAttribute="top" secondItem="hUa-W5-YVB" secondAttribute="bottom" constant="5" id="mHZ-n4-IrN"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MA2-sp-bgW" secondAttribute="trailing" id="rCb-6M-ecu"/>
-                            <constraint firstItem="MA2-sp-bgW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="usK-w8-ngU"/>
+                            <constraint firstItem="UaY-Up-KbM" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="4ax-hr-pX6"/>
+                            <constraint firstItem="UaY-Up-KbM" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="V9L-BD-ndR"/>
+                            <constraint firstAttribute="bottom" secondItem="UaY-Up-KbM" secondAttribute="bottom" id="f2V-hd-znp"/>
+                            <constraint firstItem="UaY-Up-KbM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="xgd-qA-XJe"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="FR7-Lo-v1I"/>

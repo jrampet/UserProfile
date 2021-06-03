@@ -21,6 +21,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         searchBar.delegate = self
+        addGestureforSearch()
         createTable()
         createView()
         loadData()
@@ -64,8 +65,8 @@ class ViewController: UIViewController {
     func createTable(){
         filterTable = Bundle.main.loadNibNamed(Constants.xib.filter, owner: nil)![0] as? Filters
         guard  let filterTable = filterTable else { return }
-        filterTable.frame = filterView.bounds
-        filterView.addSubview(filterTable)
+        
+        filterView.addInnerView(innerView: filterTable)
         filterTable.showUserData = {[weak self]
             (userData) in
             guard let self = self else{return}
@@ -84,12 +85,23 @@ class ViewController: UIViewController {
     func createView(){
         recentCollection = Bundle.main.loadNibNamed(Constants.xib.recent, owner: nil)![0] as? Recents
         guard let recentCollection  = recentCollection else{return }
-        recentCollection.frame = CGRect(x: 0, y: 0, width: recentView.frame.width-10, height: recentView.frame.height)
+        recentCollection.frame = recentView.bounds
         recentView.addSubview(recentCollection)
+        
         print(recentView.frame.width,recentView.frame.height)
         print(recentCollection.frame.height,recentCollection.frame.width)
     }
-    
+    func addGestureforSearch(){
+        if let searchTextField = self.searchBar.value(forKey: "searchField") as? UITextField , let clearButton = searchTextField.value(forKey: "_clearButton")as? UIButton {
+
+             clearButton.addTarget(self, action: #selector(self.cancelbuttonClicked), for: .touchUpInside)
+        }
+        
+    }
+    @objc func cancelbuttonClicked(){
+        self.searchBar.endEditing(true)
+        animateView(isHide: false)
+    }
     
 }
 extension ViewController: UISearchBarDelegate{
@@ -101,16 +113,24 @@ extension ViewController: UISearchBarDelegate{
             return $0.firstName.contains(searchText)
         })
         
-        if searchText == "" {
-            self.searchBar.endEditing(true)
-            }
-        
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.searchBar.endEditing(true)
+        if let searchBarText = searchBar.text, searchBarText.isEmpty{
+            animateView(isHide: false)
+        }
+            
     }
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        self.searchBar.endEditing(true)
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        print("Starting..")
+        animateView(isHide: true)
+        
+    }
+    func animateView(isHide:Bool){
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
+            self.recentView.isHidden = isHide
+        }, completion: nil)
     }
 }
 
