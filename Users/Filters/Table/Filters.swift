@@ -73,7 +73,6 @@ extension Filters : UITableViewDelegate,UITableViewDataSource,UISearchBarDelegat
                 return headerView
     }
     
-    
 }
 /*
  apifetch.request(url: api.url, completion: {

@@ -48,16 +48,17 @@ extension UIView{
         self.addSubview(innerView)
         
         innerView.translatesAutoresizingMaskIntoConstraints = false
-        let horizontalConstraint = innerView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
-        let verticalConstraint = innerView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+//        let horizontalConstraint = innerView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+//        let verticalConstraint = innerView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         
         
         
         let topConstraint = innerView.topAnchor.constraint(equalTo: self.topAnchor)
         let bottomConstraint = innerView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+//        bottomConstraint.priority = UILayoutPriority(900)
         let leadingConstraint = innerView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
         let trailingConstraint = innerView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         
-        self.addConstraints([horizontalConstraint, verticalConstraint,  topConstraint,bottomConstraint,leadingConstraint,trailingConstraint])
+        self.addConstraints([topConstraint,bottomConstraint,leadingConstraint,trailingConstraint])
     }
 }

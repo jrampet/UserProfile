@@ -14,20 +14,43 @@ class ViewController: UIViewController {
     @IBOutlet var filterView : UIView!
     @IBOutlet var recentView : UIView!
     @IBOutlet var searchBar: UISearchBar!
-    
+    var heightAnchor : NSLayoutConstraint?
+    var bottomConstraint : NSLayoutConstraint?
     let storyBoard: UIStoryboard = UIStoryboard(name: Constants.StoryBoard.main, bundle: nil)
     var userController : UserDetailController?
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("Loading")
         searchBar.delegate = self
         addGestureforSearch()
         createTable()
+//        updateConstraints()
         createView()
         loadData()
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 //        testApi()
         // Do any additional setup after loading the view.
+    }
+    @objc func keyboardWillShow(notification: NSNotification){
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue else {return}
+        print(keyboardSize.height)
+        print("Keyboard")
+        guard let filter = filterTable else{return}
+        filter.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+//        heightAnchor = filter.heightAnchor.constraint(equalToConstant: filter.frame.height-keyboardSize.height)
+//        bottomConstraint!.isActive  = false
+//        heightAnchor!.isActive = true
+        
+        print("Frame Height",filter.frame.height)
+    }
+    @objc func keyboardWillHide(notification: NSNotification){
+        print("hide")
+        guard let filterTable = filterTable else{return}
+        filterTable.contentInset = UIEdgeInsets(top: 0, left: 0,bottom: 0, right: 0)
+        filterTable.contentOffset = CGPoint(x: 0, y: filterTable.contentSize.height-100)
+//        heightAnchor!.isActive = false
+//        bottomConstraint!.isActive = true
     }
     
     func loadData(){
@@ -53,7 +76,11 @@ class ViewController: UIViewController {
             }
         })*/
     }
-    
+    func updateConstraints(){
+        guard let filter = filterTable else{return}
+        bottomConstraint = filter.bottomAnchor.constraint(equalTo: filterView.bottomAnchor)
+        bottomConstraint!.isActive = true
+    }
     func testApi(){
         FetchApi.request(url: api.url, completion: {
             (data) in
@@ -112,6 +139,7 @@ extension ViewController: UISearchBarDelegate{
         filterTable.filteredData = searchText.isEmpty ? filterTable.dataOfUsers : filterTable.dataOfUsers.filter({
             return $0.firstName.contains(searchText)
         })
+   
         
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -119,15 +147,20 @@ extension ViewController: UISearchBarDelegate{
         if let searchBarText = searchBar.text, searchBarText.isEmpty{
             animateView(isHide: false)
         }
+        
             
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        
+        
         print("Starting..")
         animateView(isHide: true)
         
+        
     }
     func animateView(isHide:Bool){
+        
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
             self.recentView.isHidden = isHide
         }, completion: nil)
