@@ -10,7 +10,7 @@ import UIKit
 class Filters: UITableView {
    
    let identifier = "FiltersCell"
-    
+    var lastContentOffset: CGFloat = 0
     var filteredData = [UserData](){
         didSet{
             DispatchQueue.main.async {
@@ -24,6 +24,7 @@ class Filters: UITableView {
         }
     }
     var showUserData:((UserProfile)->())?
+    var tableScroll:((_ distance: CGFloat)->())?
     override func awakeFromNib() {
     register(UINib(nibName: identifier, bundle: nil), forCellReuseIdentifier: identifier)
         delegate = self
@@ -72,6 +73,21 @@ extension Filters : UITableViewDelegate,UITableViewDataSource,UISearchBarDelegat
                 headerView.addSubview(label)
                 return headerView
     }
+  
+   
+
+ 
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.lastContentOffset = scrollView.contentOffset.y
+    }
+
+ 
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let d = scrollView.contentOffset.y - self.lastContentOffset
+//        print("Diff:",lastContentOffset-d)
+        tableScroll?(d)
+    }
+
     
 }
 /*

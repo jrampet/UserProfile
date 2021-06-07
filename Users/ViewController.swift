@@ -14,10 +14,12 @@ class ViewController: UIViewController {
     @IBOutlet var filterView : UIView!
     @IBOutlet var recentView : UIView!
     @IBOutlet var searchBar: UISearchBar!
-    var heightAnchor : NSLayoutConstraint?
-    var bottomConstraint : NSLayoutConstraint?
+    var maxorigin  : CGFloat = 0
     let storyBoard: UIStoryboard = UIStoryboard(name: Constants.StoryBoard.main, bundle: nil)
     var userController : UserDetailController?
+    var lastOffset : CGFloat = 0
+    lazy var faButton = UIButton()
+    @IBOutlet var topConstraints : NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Loading")
@@ -27,15 +29,38 @@ class ViewController: UIViewController {
 //        updateConstraints()
         createView()
         loadData()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        view.addSubview(faButton)
+    
 //        testApi()
         // Do any additional setup after loading the view.
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+       setupButton()
+    }
+    func setupButton() {
+        faButton.frame = .zero
+        NSLayoutConstraint.activate([
+            faButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            faButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
+            faButton.heightAnchor.constraint(equalToConstant: 40),
+            faButton.widthAnchor.constraint(equalToConstant: 40)
+            ])
+        faButton.layer.cornerRadius = 20
+        faButton.layer.masksToBounds = true
+        faButton.layer.borderColor = UIColor.lightGray.cgColor
+        faButton.layer.borderWidth = 2
+        faButton.translatesAutoresizingMaskIntoConstraints = false
+        faButton.backgroundColor = .systemYellow
+        faButton.setImage(UIImage(systemName: "chevron.up.circle"), for: .normal)
+        faButton.addTarget(self, action: #selector(fabTapped(_:)), for: .touchUpInside)
+        
+    }
     @objc func keyboardWillShow(notification: NSNotification){
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue else {return}
-        print(keyboardSize.height)
-        print("Keyboard")
         guard let filter = filterTable else{return}
         filter.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
 //        heightAnchor = filter.heightAnchor.constraint(equalToConstant: filter.frame.height-keyboardSize.height)
@@ -48,11 +73,16 @@ class ViewController: UIViewController {
         print("hide")
         guard let filterTable = filterTable else{return}
         filterTable.contentInset = UIEdgeInsets(top: 0, left: 0,bottom: 0, right: 0)
-        filterTable.contentOffset = CGPoint(x: 0, y: filterTable.contentSize.height-100)
+        
 //        heightAnchor!.isActive = false
 //        bottomConstraint!.isActive = true
     }
-    
+    @objc func fabTapped(_ button:UIButton){
+        if let filterTable = filterTable{
+            filterTable.setContentOffset(.zero, animated: true)
+        }
+        
+    }
     func loadData(){
     
         guard let table = filterTable, let collection = recentCollection else{return}
@@ -76,11 +106,6 @@ class ViewController: UIViewController {
             }
         })*/
     }
-    func updateConstraints(){
-        guard let filter = filterTable else{return}
-        bottomConstraint = filter.bottomAnchor.constraint(equalTo: filterView.bottomAnchor)
-        bottomConstraint!.isActive = true
-    }
     func testApi(){
         FetchApi.request(url: api.url, completion: {
             (data) in
@@ -92,7 +117,7 @@ class ViewController: UIViewController {
     func createTable(){
         filterTable = Bundle.main.loadNibNamed(Constants.xib.filter, owner: nil)![0] as? Filters
         guard  let filterTable = filterTable else { return }
-        
+        maxorigin =  self.recentView.frame.height * -1
         filterView.addInnerView(innerView: filterTable)
         filterTable.showUserData = {[weak self]
             (userData) in
@@ -105,8 +130,49 @@ class ViewController: UIViewController {
                 guard let presentController = self.navigationController else { return }
                 presentController.pushViewController(userController, animated: true)
             }
-         
-            
+        }
+        filterTable.tableScroll = {[weak self]
+            (distance) in
+            guard let self = self else{return}
+//            print(filterTable.contentOffset.y)
+            if(distance<0 && filterTable.contentOffset.y <= 0){
+//                print("first  if",filterTable.contentOffset)
+                if(self.topConstraints.constant - distance <= 0){
+//                    print("first if first if")
+                    self.topConstraints.constant -= distance
+                }
+            }else{
+//                print("first else",filterTable.contentOffset,distance)
+                if(distance<0 && filterTable.contentOffset == .zero){
+//                    print("first else first if")
+                    if(self.topConstraints.constant - distance <= 0){
+//                        print("first else first if first if")
+                        self.topConstraints.constant -= distance
+                    }else{
+//                        print("first else first if first else")
+                        self.topConstraints.constant = 0
+                    }
+
+                }
+                else if distance>0 && filterTable.contentOffset.y >= 0{
+                    if((self.recentView.frame.origin.y * -1) < self.recentView.frame.height){
+//                        print("first else second if")
+                        if(self.recentView.frame.origin.y - distance)<=0{
+//                            print("first else second if first if")
+                            if(self.recentView.frame.origin.y - distance >= self.maxorigin){
+//                                print("first else second if first if first if ")
+                                self.topConstraints.constant -= distance
+                                filterTable.contentOffset = .zero
+                            }else{
+//                                print("first else second if first if first else ")
+                                self.topConstraints.constant = self.maxorigin
+                            }
+                        }
+                    }
+                }
+
+            }
+ 
         }
     }
     func createView(){
@@ -150,13 +216,11 @@ extension ViewController: UISearchBarDelegate{
         
             
     }
+   
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        
-        
         print("Starting..")
         animateView(isHide: true)
-        
         
     }
     func animateView(isHide:Bool){
@@ -165,6 +229,7 @@ extension ViewController: UISearchBarDelegate{
             self.recentView.isHidden = isHide
         }, completion: nil)
     }
+    
 }
 
 /*

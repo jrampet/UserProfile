@@ -42,19 +42,31 @@
                                             <constraint firstItem="Rq7-CB-62d" firstAttribute="leading" secondItem="hUa-W5-YVB" secondAttribute="leading" id="hws-r1-Lw6"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MA2-sp-bgW">
-                                        <rect key="frame" x="0.0" y="57" width="414" height="138.5"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UdR-ny-9ZX" customClass="CardView" customModule="Users" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="202.5" width="414" height="605.5"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1eW-vI-id3">
+                                        <rect key="frame" x="0.0" y="57" width="414" height="751"/>
+                                        <subviews>
+                                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MA2-sp-bgW">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="132"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UdR-ny-9ZX" customClass="CardView" customModule="Users" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="132" width="414" height="619"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="UdR-ny-9ZX" secondAttribute="trailing" id="7VK-o0-876"/>
+                                            <constraint firstItem="UdR-ny-9ZX" firstAttribute="leading" secondItem="1eW-vI-id3" secondAttribute="leading" id="Cj0-AT-0we"/>
+                                            <constraint firstItem="MA2-sp-bgW" firstAttribute="top" secondItem="1eW-vI-id3" secondAttribute="top" id="PfM-zX-V1z"/>
+                                            <constraint firstItem="UdR-ny-9ZX" firstAttribute="top" secondItem="MA2-sp-bgW" secondAttribute="bottom" id="QEM-rT-CW8"/>
+                                            <constraint firstItem="MA2-sp-bgW" firstAttribute="height" secondItem="1eW-vI-id3" secondAttribute="height" multiplier="0.16" constant="11.939999999999998" id="U4x-o5-y8Q"/>
+                                            <constraint firstAttribute="trailing" secondItem="MA2-sp-bgW" secondAttribute="trailing" id="dNQ-qh-BS6"/>
+                                            <constraint firstAttribute="bottom" secondItem="UdR-ny-9ZX" secondAttribute="bottom" id="wVY-2e-5vr"/>
+                                            <constraint firstItem="MA2-sp-bgW" firstAttribute="leading" secondItem="1eW-vI-id3" secondAttribute="leading" id="xKs-sp-Cit"/>
+                                        </constraints>
                                     </view>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="UdR-ny-9ZX" secondAttribute="bottom" id="Lg7-S5-4NU"/>
-                                    <constraint firstItem="MA2-sp-bgW" firstAttribute="height" secondItem="UaY-Up-KbM" secondAttribute="height" multiplier="0.16" constant="9.4199999999999999" id="X85-W7-AnD"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -71,6 +83,7 @@
                         <outlet property="filterView" destination="UdR-ny-9ZX" id="37r-tm-KAb"/>
                         <outlet property="recentView" destination="MA2-sp-bgW" id="hck-nf-fkH"/>
                         <outlet property="searchBar" destination="Rq7-CB-62d" id="Qqq-kD-ORO"/>
+                        <outlet property="topConstraints" destination="PfM-zX-V1z" id="3Wv-3V-VrX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
