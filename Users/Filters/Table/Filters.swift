@@ -80,11 +80,8 @@ extension Filters : UITableViewDelegate,UITableViewDataSource,UISearchBarDelegat
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.lastContentOffset = scrollView.contentOffset.y
     }
-
- 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let d = scrollView.contentOffset.y - self.lastContentOffset
-//        print("Diff:",lastContentOffset-d)
         tableScroll?(d)
     }
 

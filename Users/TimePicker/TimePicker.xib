@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="TimePicker" customModule="Users" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="426" height="283"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kta-1s-fxe">
+                    <rect key="frame" x="0.0" y="44" width="426" height="205"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ftA-5M-awt" userLabel="AMSelectionView">
+                            <rect key="frame" x="328" y="68.5" width="50" height="68"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dcv-rg-58X" userLabel="MinuteSelectionView">
+                            <rect key="frame" x="188" y="68.5" width="50" height="68"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fgC-mB-aDj" userLabel="HourSelectionView">
+                            <rect key="frame" x="48" y="68.5" width="50" height="68"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </view>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4HS-Vy-eV7" userLabel="Hour" customClass="TimePickerWheel" customModule="Users" customModuleProvider="target">
+                            <rect key="frame" x="23" y="0.0" width="100" height="205"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="100" id="850-Q6-Ybm"/>
+                            </constraints>
+                        </tableView>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sPR-Zf-AhJ" userLabel="Minutes" customClass="TimePickerWheel" customModule="Users" customModuleProvider="target">
+                            <rect key="frame" x="163" y="0.0" width="100" height="205"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="100" id="URd-SS-46b"/>
+                            </constraints>
+                        </tableView>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Qua-CY-ozg" userLabel="AMPM" customClass="TimePickerWheel" customModule="Users" customModuleProvider="target">
+                            <rect key="frame" x="303" y="0.0" width="100" height="205"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="100" id="jNL-og-C4D"/>
+                            </constraints>
+                        </tableView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=":" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cqd-nb-NLu">
+                            <rect key="frame" x="131" y="92.5" width="32" height="20.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="fgC-mB-aDj" firstAttribute="height" secondItem="4HS-Vy-eV7" secondAttribute="height" multiplier="0.33333" id="2bf-bN-kph"/>
+                        <constraint firstItem="Dcv-rg-58X" firstAttribute="width" secondItem="fgC-mB-aDj" secondAttribute="width" id="6xX-Ja-AjM"/>
+                        <constraint firstAttribute="bottom" secondItem="Qua-CY-ozg" secondAttribute="bottom" id="7gV-nD-Hdg"/>
+                        <constraint firstItem="sPR-Zf-AhJ" firstAttribute="leading" secondItem="4HS-Vy-eV7" secondAttribute="trailing" constant="40" id="7hd-F4-D2e"/>
+                        <constraint firstItem="fgC-mB-aDj" firstAttribute="width" secondItem="4HS-Vy-eV7" secondAttribute="width" multiplier="0.5" id="EJk-dt-BdN"/>
+                        <constraint firstItem="Dcv-rg-58X" firstAttribute="centerX" secondItem="Kta-1s-fxe" secondAttribute="centerX" id="HYu-iM-6Fe"/>
+                        <constraint firstItem="cqd-nb-NLu" firstAttribute="leading" secondItem="4HS-Vy-eV7" secondAttribute="trailing" constant="8" id="Jzb-ZJ-NTg"/>
+                        <constraint firstItem="sPR-Zf-AhJ" firstAttribute="top" secondItem="Kta-1s-fxe" secondAttribute="top" id="LuU-Ey-Ohf"/>
+                        <constraint firstItem="ftA-5M-awt" firstAttribute="width" secondItem="fgC-mB-aDj" secondAttribute="width" id="QbA-Gp-Wld"/>
+                        <constraint firstItem="4HS-Vy-eV7" firstAttribute="top" secondItem="Kta-1s-fxe" secondAttribute="top" id="ThQ-vo-HXi"/>
+                        <constraint firstItem="Qua-CY-ozg" firstAttribute="top" secondItem="Kta-1s-fxe" secondAttribute="top" id="WQj-23-kUA"/>
+                        <constraint firstItem="sPR-Zf-AhJ" firstAttribute="leading" secondItem="cqd-nb-NLu" secondAttribute="trailing" id="a1o-pt-j06"/>
+                        <constraint firstItem="Qua-CY-ozg" firstAttribute="leading" secondItem="sPR-Zf-AhJ" secondAttribute="trailing" constant="40" id="a83-Rp-V1G"/>
+                        <constraint firstItem="Dcv-rg-58X" firstAttribute="height" secondItem="fgC-mB-aDj" secondAttribute="height" id="bhM-Pu-YMk"/>
+                        <constraint firstItem="Dcv-rg-58X" firstAttribute="leading" secondItem="fgC-mB-aDj" secondAttribute="trailing" constant="90" id="iQS-M8-dTL"/>
+                        <constraint firstItem="cqd-nb-NLu" firstAttribute="centerY" secondItem="Kta-1s-fxe" secondAttribute="centerY" id="koN-I1-yMh"/>
+                        <constraint firstAttribute="bottom" secondItem="4HS-Vy-eV7" secondAttribute="bottom" id="n5n-Nv-7IF"/>
+                        <constraint firstItem="sPR-Zf-AhJ" firstAttribute="centerY" secondItem="Kta-1s-fxe" secondAttribute="centerY" id="nCq-9e-6w2"/>
+                        <constraint firstItem="fgC-mB-aDj" firstAttribute="centerY" secondItem="Kta-1s-fxe" secondAttribute="centerY" id="rBa-v3-JZd"/>
+                        <constraint firstAttribute="bottom" secondItem="sPR-Zf-AhJ" secondAttribute="bottom" id="ri1-VN-Efa"/>
+                        <constraint firstItem="Dcv-rg-58X" firstAttribute="centerY" secondItem="Kta-1s-fxe" secondAttribute="centerY" id="riK-8y-duY"/>
+                        <constraint firstItem="ftA-5M-awt" firstAttribute="centerY" secondItem="Kta-1s-fxe" secondAttribute="centerY" id="sO9-qi-MVx"/>
+                        <constraint firstItem="ftA-5M-awt" firstAttribute="leading" secondItem="Dcv-rg-58X" secondAttribute="trailing" constant="90" id="vVS-FY-8k2"/>
+                        <constraint firstItem="sPR-Zf-AhJ" firstAttribute="centerX" secondItem="Kta-1s-fxe" secondAttribute="centerX" id="y4z-yc-L3f"/>
+                        <constraint firstItem="ftA-5M-awt" firstAttribute="height" secondItem="fgC-mB-aDj" secondAttribute="height" id="yZL-ie-TxZ"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Kta-1s-fxe" secondAttribute="trailing" id="L0G-t5-G2L"/>
+                <constraint firstItem="Kta-1s-fxe" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="PRy-LN-aA0"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Kta-1s-fxe" secondAttribute="bottom" id="Sc9-yK-3fT"/>
+                <constraint firstItem="Kta-1s-fxe" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="jxC-gt-sgz"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="delimeter" destination="cqd-nb-NLu" id="msA-e4-rP4"/>
+                <outlet property="hourSelectionView" destination="fgC-mB-aDj" id="JG3-lC-RWy"/>
+                <outlet property="hourWheel" destination="4HS-Vy-eV7" id="wFy-gt-nJz"/>
+                <outlet property="meridianSelectionView" destination="ftA-5M-awt" id="4pW-Y8-rH1"/>
+                <outlet property="meridianWheel" destination="Qua-CY-ozg" id="AIE-1C-Gws"/>
+                <outlet property="minuteSelectionView" destination="Dcv-rg-58X" id="z6P-vN-1I6"/>
+                <outlet property="minuteWheel" destination="sPR-Zf-AhJ" id="kwn-0L-Kei"/>
+            </connections>
+            <point key="canvasLocation" x="146.37681159420291" y="-136.27232142857142"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

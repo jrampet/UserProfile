@@ -7,29 +7,33 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ChildController: UIViewController {
     
     var filterTable : Filters?
     var recentCollection : Recents?
     @IBOutlet var filterView : UIView!
     @IBOutlet var recentView : UIView!
-    @IBOutlet var searchBar: UISearchBar!
+    @IBOutlet var controllerView : UIView!
+    var searchBar: UISearchBar?
     var maxorigin  : CGFloat = 0
     let storyBoard: UIStoryboard = UIStoryboard(name: Constants.StoryBoard.main, bundle: nil)
     var userController : UserDetailController?
     var lastOffset : CGFloat = 0
     lazy var faButton = UIButton()
     @IBOutlet var topConstraints : NSLayoutConstraint!
+    
+    var viewController : MainViewController?
+    var searchBarDelegate : CustomSearchBarDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Loading")
-        searchBar.delegate = self
-        addGestureforSearch()
+//        searchBar.delegate = self
+//        addGestureforSearch()
+       
         createTable()
 //        updateConstraints()
         createView()
         loadData()
-        
+        searchBarDelegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         view.addSubview(faButton)
@@ -38,8 +42,16 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        print("Child appearing")
+        setDelegate()
+        
        setupButton()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+       
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        print("Child Disappearing")
     }
     func setupButton() {
         faButton.frame = .zero
@@ -67,10 +79,9 @@ class ViewController: UIViewController {
 //        bottomConstraint!.isActive  = false
 //        heightAnchor!.isActive = true
         
-        print("Frame Height",filter.frame.height)
+       
     }
     @objc func keyboardWillHide(notification: NSNotification){
-        print("hide")
         guard let filterTable = filterTable else{return}
         filterTable.contentInset = UIEdgeInsets(top: 0, left: 0,bottom: 0, right: 0)
         
@@ -93,7 +104,7 @@ class ViewController: UIViewController {
             let userList : UsersData = jsonData.decode()
             table.dataOfUsers = userList.data
             collection.cellData = userList.data
-            print("\(table.dataOfUsers.count)  ju")
+//            print("\(table.dataOfUsers.count)  ju")
         })
         /*apifetch.requestUser(count: 10, completionHandler: {
             (data) in
@@ -181,23 +192,52 @@ class ViewController: UIViewController {
         recentCollection.frame = recentView.bounds
         recentView.addSubview(recentCollection)
         
-        print(recentView.frame.width,recentView.frame.height)
-        print(recentCollection.frame.height,recentCollection.frame.width)
+//        print(recentView.frame.width,recentView.frame.height)
+//        print(recentCollection.frame.height,recentCollection.frame.width)
     }
-    func addGestureforSearch(){
-        if let searchTextField = self.searchBar.value(forKey: "searchField") as? UITextField , let clearButton = searchTextField.value(forKey: "_clearButton")as? UIButton {
-
-             clearButton.addTarget(self, action: #selector(self.cancelbuttonClicked), for: .touchUpInside)
-        }
-        
+    func setDelegate(){
+        var pageController = self.parent as? PageController
+        if(pageController == nil){pageController = self.parent?.parent as? PageController}
+        guard let pageController = pageController else{return}
+        let mainController = pageController.parentController
+        mainController?.searchBarDelegate = self
     }
-    @objc func cancelbuttonClicked(){
-        self.searchBar.endEditing(true)
-        animateView(isHide: false)
-    }
+   
     
 }
-extension ViewController: UISearchBarDelegate{
+extension ChildController : CustomSearchBarDelegate{
+    
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard let filterTable = self.filterTable else{return}
+        print(filterTable.filteredData.count)
+        filterTable.filteredData = searchText.isEmpty ? filterTable.dataOfUsers : filterTable.dataOfUsers.filter({
+            return $0.firstName.contains(searchText)
+        })
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+        print("Search")
+        if let searchBarText = searchBar.text, searchBarText.isEmpty{            animateView(isHide: false)
+        }
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        animateView(isHide: true)
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        animateView(isHide: false)
+    }
+    func animateView(isHide:Bool){
+        
+        UIView.animate(withDuration: 0.8, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
+            self.recentView.isHidden = isHide
+        }, completion: nil)
+    }
+}
+/*
+extension ChildController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         guard let filterTable = self.filterTable else{return}
@@ -209,7 +249,8 @@ extension ViewController: UISearchBarDelegate{
         
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        self.searchBar.endEditing(true)
+//        guard let searchBar = self.searchBar else{return}
+        searchBar.endEditing(true)
         if let searchBarText = searchBar.text, searchBarText.isEmpty{
             animateView(isHide: false)
         }
@@ -223,6 +264,19 @@ extension ViewController: UISearchBarDelegate{
         animateView(isHide: true)
         
     }
+    func addGestureforSearch(){
+        guard let searchBar = self.searchBar else{return}
+        if let searchTextField = searchBar.value(forKey: "searchField") as? UITextField , let clearButton = searchTextField.value(forKey: "_clearButton")as? UIButton {
+
+             clearButton.addTarget(self, action: #selector(self.cancelbuttonClicked), for: .touchUpInside)
+        }
+        
+    }
+    @objc func cancelbuttonClicked(){
+        guard let searchBar = self.searchBar else{return}
+        searchBar.endEditing(true)
+        animateView(isHide: false)
+    }
     func animateView(isHide:Bool){
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
@@ -230,7 +284,7 @@ extension ViewController: UISearchBarDelegate{
         }, completion: nil)
     }
     
-}
+}*/
 
 /*
  apifetch.request(url: api.url, completion: {
